@@ -4,39 +4,39 @@
 #define STRUKTURE_H
 
 typedef struct {
-	char ime[20];
-	int polje;
-	int bodovi;
-	int gotov;
+    char ime[20];
+    int polje;
+    int bodovi;
+    int gotov;
 } igrac;
 
 typedef struct {
-	const char* ime;
-	int tezina;
-	int bod;
+    const char* ime;
+    int tezina;
+    int bod;
 } ribe;
 
 typedef enum {
-	IZBORNIK_IGRAJ = 1,
-	IZBORNIK_NASTAVI,
-	IZBORNIK_PRAVILA,
-	IZBORNIK_HIGHSCORE,
-	IZBORNIK_IZBRISI_HIGHSCORE,
-	IZBORNIK_IZLAZ
+    IZBORNIK_IGRAJ = 1,
+    IZBORNIK_NASTAVI,
+    IZBORNIK_PRAVILA,
+    IZBORNIK_HIGHSCORE,
+    IZBORNIK_IZBRISI_HIGHSCORE,
+    IZBORNIK_IZLAZ
 } IzbornikOpcija;
 
-void init_game(int num_players, igrac players[]);
-void play_game(igrac players[], int num_players);
-void save_game(igrac players[], int num_players);
-int load_game(igrac players[], int* num_players);
-void NapisiPravilaIgre();
-int loviribu();
-int bacanjekocke();
-int bacanjekocke_rekurzivno(int roll_count);
+void initGame(int numPlayers, igrac* players);
+void playGame(igrac* players, int numPlayers);
+void saveGame(igrac* players, int numPlayers);
+int loadGame(igrac* players, int* numPlayers);
+void napisiPravilaIgre();
+int loviRibu();
+int bacanjeKocke();
+int bacanjeKockeRekurzivno(int rollCount);
 void ispisiHighscore();
 void izbrisiHighscore();
 void upisiHighscore(const char* ime, int bodovi);
 int upisiBrojIgraca();
-int valid_input(char* input);  // dodali smo ovu liniju
+int validInput(char* input);
 
 #endif
