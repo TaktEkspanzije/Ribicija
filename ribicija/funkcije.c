@@ -392,6 +392,15 @@ int loadGameBinary(igrac* players, int* numPlayers, int fileIndex) {
     // Pročitaj podatke o igračima
     fread(players, sizeof(igrac), *numPlayers, file);
 
+    // Use ftell to display the current position of the file pointer
+    long currentPosition = ftell(file);
+    if (currentPosition != -1) {
+        printf("Trenutna pozicija pokazivača u datoteci: %ld byte-ova.\n", currentPosition);
+    }
+    else {
+        perror("Greska kod poziva ftell()");
+    }
+
     fclose(file);
     return 0;
 }
