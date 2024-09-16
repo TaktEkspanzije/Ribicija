@@ -19,6 +19,7 @@ int main() {
     char odgovor[3];
     char input[10];  // Buffer to store user input
     IzbornikOpcija choice;
+    int saveFileIndex = 1;  // Default save file index
 
     while (1) {
         printf("**************************************************\n");
@@ -39,8 +40,22 @@ int main() {
         switch (choice) {
         case IZBORNIK_IGRAJ:
             brojIgraca = upisiBrojIgraca();
+
+            // Ask for the save file where the game will be saved
+            printf("Odaberite save file (1, 2, ili 3) za ovu igru: ");
+            scanf("%d", &saveFileIndex);
+
+            // Validate the input
+            if (saveFileIndex < 1 || saveFileIndex > 3) {
+                printf("Neispravan odabir. Spremit ćemo u savefile1.\n");
+                saveFileIndex = 1;
+            }
+
             initGame(brojIgraca, players);
             playGame(players, brojIgraca);
+
+            // Save the game in the chosen save file
+            saveGameBinary(players, brojIgraca, saveFileIndex);
             break;
 
         case IZBORNIK_NASTAVI: {
