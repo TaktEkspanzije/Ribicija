@@ -85,6 +85,7 @@ int main() {
                 int nextSaveFile = getAvailableSaveFile();
                 saveGameBinary(players, brojIgraca, nextSaveFile);
                 free(players);
+                players = NULL; // Postavi pokazivač na NULL nakon oslobadanja memorije
                 exit(0);
             }
             else if (!strcmp(odgovor, "ne")) {
@@ -102,5 +103,6 @@ int main() {
     }
 
     free(players); // Oslobodi memoriju
+    players = NULL; // Postavi pokazivač na NULL nakon oslobadanja memorije
     return 0;
 }
