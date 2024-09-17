@@ -12,7 +12,7 @@ typedef struct {
 
 typedef struct {
     const char* ime;
-    int tezina;
+    float tezina;  // Changed from int to float
     int bod;
 } ribe;
 
