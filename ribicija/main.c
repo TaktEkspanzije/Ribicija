@@ -9,7 +9,7 @@
 igrac* players;
 
 int main() {
-    int brojIgraca;
+    int brojIgraca = 0;  
     players = (igrac*)malloc(4 * sizeof(igrac)); // Dinamička memorija za igrače
     if (players == NULL) {
         perror("Failed to allocate memory");
@@ -17,9 +17,9 @@ int main() {
     }
 
     char odgovor[3];
-    char input[10];  // Buffer to store user input
+    char input[10];  
     IzbornikOpcija choice;
-    int saveFileIndex = 1;  // Default save file index
+    int saveFileIndex = 1;  
 
     while (1) {
         printf("**************************************************\n");
@@ -30,7 +30,7 @@ int main() {
         printf("4. Procitaj highscore,\n");
         printf("5. Izbrisi highscore,\n");
         printf("6. Izlaz.\n");
-        scanf("%s", input);  // Read user input as string
+        scanf("%s", input);  
 
         if (sscanf(input, "%d", (int*)&choice) != 1) {
             printf("Pogresan izbor, upisi broj izmedu 1 i 6.\n");
@@ -41,11 +41,9 @@ int main() {
         case IZBORNIK_IGRAJ:
             brojIgraca = upisiBrojIgraca();
 
-            // Ask for the save file where the game will be saved
             printf("Odaberite save file (1, 2, ili 3) za ovu igru: ");
             scanf("%d", &saveFileIndex);
 
-            // Validate the input
             if (saveFileIndex < 1 || saveFileIndex > 3) {
                 printf("Neispravan odabir. Spremit ćemo u savefile1.\n");
                 saveFileIndex = 1;
@@ -54,7 +52,7 @@ int main() {
             initGame(brojIgraca, players);
             playGame(players, brojIgraca);
 
-            // Save the game in the chosen save file
+            // Spremi igru u odredeni file
             saveGameBinary(players, brojIgraca, saveFileIndex);
             break;
 
