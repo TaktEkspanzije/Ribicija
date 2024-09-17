@@ -8,10 +8,10 @@
 #include "strukture.h"
 
 // External declarations
-extern igrac* players; // Line 5
+extern igrac* players; 
 
 // Funkcija za validaciju unosa
-int validInput(char* input) { // Lines 9-17
+int validInput(char* input) { 
     for (int i = 0; input[i] != '\0'; i++) {
         if (!isdigit(input[i])) {
             return 0; // false, not a number
@@ -21,7 +21,7 @@ int validInput(char* input) { // Lines 9-17
 }
 
 // Rekurzivna funkcija za bacanje kocke s nasumičnim seed-om
-int bacanjeKockeRekurzivno(int rollCount) { // Lines 19-27
+int bacanjeKockeRekurzivno(int rollCount) { 
     srand(time(NULL) + rollCount);
     if (rollCount == 1) {
         return rand() % 6 + 1;
@@ -32,11 +32,11 @@ int bacanjeKockeRekurzivno(int rollCount) { // Lines 19-27
 }
 
 // Funkcija za bacanje kocke
-int bacanjeKocke() { // Lines 28-30
+int bacanjeKocke() { 
     return bacanjeKockeRekurzivno(1);
 }
 
-void napisiPravilaIgre() { // Lines 34-37
+void napisiPravilaIgre() { 
     printf("\n - \n Dok igras portebno je pokraj sebe imati fizicku kopiju ili sliku polja igre ribicija \n kako bi znali gdje se nalazite u igri posto je ovaj program samo text :p. \n Ribicija je covjece ne ljuti se igra sa posebnim poljima gdje pecas i ovisno koju ribu \n ulovis dobivas odredenu kolicinu bodova. Ti bodovi odlucuju tko je pobjednik. \n Pobjednik nije onaj igrac koji prvi dođe do cilja vec onaj sa najvise bodova na kraju igre. \n Prvi igrac koji dode do cilja dobiva 10 nagradnih bodova. \n - \n - ");
 }
 
@@ -45,67 +45,67 @@ int loviRibu() { // Lines 39-83
     int brojRibe = rand() % 16 + 1;
 
     riba[1].ime = "Pastrva";
-    riba[1].tezina = 2.5;  // Changed to float
+    riba[1].tezina = 2.5;  
     riba[1].bod = 4;
 
     riba[2].ime = "Deverika";
-    riba[2].tezina = 3.7;  // Changed to float
+    riba[2].tezina = 3.7;  
     riba[2].bod = 3;
 
     riba[3].ime = "Crvenperka";
-    riba[3].tezina = 1.2;  // Changed to float
+    riba[3].tezina = 1.2; 
     riba[3].bod = 3;
 
     riba[4].ime = "Tolstolobik";
-    riba[4].tezina = 25.3;  // Changed to float
+    riba[4].tezina = 25.3;  
     riba[4].bod = 4;
 
     riba[5].ime = "Saran";
-    riba[5].tezina = 13.4;  // Changed to float
+    riba[5].tezina = 13.4;  
     riba[5].bod = 4;
 
     riba[6].ime = "Bolen";
-    riba[6].tezina = 6.6;  // Changed to float
+    riba[6].tezina = 6.6;  
     riba[6].bod = 4;
 
     riba[7].ime = "Som";
-    riba[7].tezina = 39.5;  // Changed to float
+    riba[7].tezina = 39.5; 
     riba[7].bod = 4;
 
     riba[8].ime = "Smud";
-    riba[8].tezina = 4.2;  // Changed to float
+    riba[8].tezina = 4.2;  
     riba[8].bod = 6;
 
     riba[9].ime = "Keciga";
-    riba[9].tezina = 7.1;  // Changed to float
+    riba[9].tezina = 7.1;  
     riba[9].bod = 4;
 
     riba[10].ime = "Cvergl";
-    riba[10].tezina = 1.0;  // Changed to float
+    riba[10].tezina = 1.0;  
     riba[10].bod = -2;
 
     riba[11].ime = "Amur";
-    riba[11].tezina = 11.8;  // Changed to float
+    riba[11].tezina = 11.8;  
     riba[11].bod = 5;
 
     riba[12].ime = "Mrena";
-    riba[12].tezina = 2.9;  // Changed to float
+    riba[12].tezina = 2.9;  
     riba[12].bod = 3;
 
     riba[13].ime = "Stuka";
-    riba[13].tezina = 15.5;  // Changed to float
+    riba[13].tezina = 15.5; 
     riba[13].bod = 7;
 
     riba[14].ime = "Grgec";
-    riba[14].tezina = 1.3;  // Changed to float
+    riba[14].tezina = 1.3;  
     riba[14].bod = 3;
 
     riba[15].ime = "Klen";
-    riba[15].tezina = 1.1;  // Changed to float
+    riba[15].tezina = 1.1;  
     riba[15].bod = 2;
 
     riba[16].ime = "Linjak";
-    riba[16].tezina = 4.7;  // Changed to float
+    riba[16].tezina = 4.7;  
     riba[16].bod = 7;
 
     if (brojRibe == 10) {
@@ -127,7 +127,7 @@ void initGame(int numPlayers, igrac* players) { // Lines 118-126
     }
 }
 
-void playGame(igrac* players, int numPlayers) { // Lines 128-214
+void playGame(igrac* players, int numPlayers) { 
     int currentPlayer = 0;
     int posebnaPolja[17] = { 37, 41, 45, 50, 55, 61, 66, 69, 73, 77, 80, 83, 88, 93, 100, 104, 108 };
     int krajIgre = 0;
