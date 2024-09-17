@@ -45,74 +45,75 @@ int loviRibu() { // Lines 39-83
     int brojRibe = rand() % 16 + 1;
 
     riba[1].ime = "Pastrva";
-    riba[1].tezina = 2;
+    riba[1].tezina = 2.5;  // Changed to float
     riba[1].bod = 4;
 
     riba[2].ime = "Deverika";
-    riba[2].tezina = 3;
+    riba[2].tezina = 3.7;  // Changed to float
     riba[2].bod = 3;
 
     riba[3].ime = "Crvenperka";
-    riba[3].tezina = 1;
+    riba[3].tezina = 1.2;  // Changed to float
     riba[3].bod = 3;
 
     riba[4].ime = "Tolstolobik";
-    riba[4].tezina = 25;
+    riba[4].tezina = 25.3;  // Changed to float
     riba[4].bod = 4;
 
     riba[5].ime = "Saran";
-    riba[5].tezina = 13;
+    riba[5].tezina = 13.4;  // Changed to float
     riba[5].bod = 4;
 
     riba[6].ime = "Bolen";
-    riba[6].tezina = 6;
+    riba[6].tezina = 6.6;  // Changed to float
     riba[6].bod = 4;
 
     riba[7].ime = "Som";
-    riba[7].tezina = 39;
+    riba[7].tezina = 39.5;  // Changed to float
     riba[7].bod = 4;
 
     riba[8].ime = "Smud";
-    riba[8].tezina = 4;
+    riba[8].tezina = 4.2;  // Changed to float
     riba[8].bod = 6;
 
     riba[9].ime = "Keciga";
-    riba[9].tezina = 7;
+    riba[9].tezina = 7.1;  // Changed to float
     riba[9].bod = 4;
 
     riba[10].ime = "Cvergl";
-    riba[10].tezina = 1;
+    riba[10].tezina = 1.0;  // Changed to float
     riba[10].bod = -2;
 
     riba[11].ime = "Amur";
-    riba[11].tezina = 11;
+    riba[11].tezina = 11.8;  // Changed to float
     riba[11].bod = 5;
 
     riba[12].ime = "Mrena";
-    riba[12].tezina = 2;
+    riba[12].tezina = 2.9;  // Changed to float
     riba[12].bod = 3;
 
     riba[13].ime = "Stuka";
-    riba[13].tezina = 15;
+    riba[13].tezina = 15.5;  // Changed to float
     riba[13].bod = 7;
 
     riba[14].ime = "Grgec";
-    riba[14].tezina = 1;
+    riba[14].tezina = 1.3;  // Changed to float
     riba[14].bod = 3;
 
     riba[15].ime = "Klen";
-    riba[15].tezina = 1;
+    riba[15].tezina = 1.1;  // Changed to float
     riba[15].bod = 2;
 
     riba[16].ime = "Linjak";
-    riba[16].tezina = 4;
+    riba[16].tezina = 4.7;  // Changed to float
     riba[16].bod = 7;
 
     if (brojRibe == 10) {
         printf("Ajoj, ulovili ste Cvergla. Ta riba vam oduzima 2 boda :(\n \n");
         return -2;
     }
-    printf("Ulovili ste ribu %s tezine %d ! Vrijednost ribe u bodovima: %d\n \n", riba[brojRibe].ime, riba[brojRibe].tezina, riba[brojRibe].bod);
+    // Changed %d to %f to print float
+    printf("Ulovili ste ribu %s tezine %.1f ! Vrijednost ribe u bodovima: %d\n \n", riba[brojRibe].ime, riba[brojRibe].tezina, riba[brojRibe].bod);
     return riba[brojRibe].bod;
 }
 
