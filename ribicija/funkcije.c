@@ -8,10 +8,10 @@
 #include "strukture.h"
 
 // External declarations
-extern igrac* players; 
+extern igrac* players;
 
 // Funkcija za validaciju unosa
-int validInput(char* input) { 
+int validInput(char* input) {
     for (int i = 0; input[i] != '\0'; i++) {
         if (!isdigit(input[i])) {
             return 0; // false, not a number
@@ -21,103 +21,101 @@ int validInput(char* input) {
 }
 
 // Rekurzivna funkcija za bacanje kocke s nasumičnim seed-om
-int bacanjeKockeRekurzivno(int rollCount) { 
+int bacanjeKockeRekurzivno(int rollCount) {
     srand(time(NULL) + rollCount);
     if (rollCount == 1) {
         return rand() % 6 + 1;
-    }
-    else {
+    } else {
         return (rand() % 6 + 1) + bacanjeKockeRekurzivno(rollCount - 1);
     }
 }
 
 // Funkcija za bacanje kocke
-int bacanjeKocke() { 
+int bacanjeKocke() {
     return bacanjeKockeRekurzivno(1);
 }
 
-void napisiPravilaIgre() { 
+void napisiPravilaIgre() {
     printf("\n - \n Dok igras portebno je pokraj sebe imati fizicku kopiju ili sliku polja igre ribicija \n kako bi znali gdje se nalazite u igri posto je ovaj program samo text :p. \n Ribicija je covjece ne ljuti se igra sa posebnim poljima gdje pecas i ovisno koju ribu \n ulovis dobivas odredenu kolicinu bodova. Ti bodovi odlucuju tko je pobjednik. \n Pobjednik nije onaj igrac koji prvi dođe do cilja vec onaj sa najvise bodova na kraju igre. \n Prvi igrac koji dode do cilja dobiva 10 nagradnih bodova. \n - \n - ");
 }
 
-int loviRibu() { // Lines 39-83
+int loviRibu() {
     static ribe riba[17];
     int brojRibe = rand() % 16 + 1;
 
     riba[1].ime = "Pastrva";
-    riba[1].tezina = 2.5;  
+    riba[1].tezina = 2.5;
     riba[1].bod = 4;
 
     riba[2].ime = "Deverika";
-    riba[2].tezina = 3.7;  
+    riba[2].tezina = 3.7;
     riba[2].bod = 3;
 
     riba[3].ime = "Crvenperka";
-    riba[3].tezina = 1.2; 
+    riba[3].tezina = 1.2;
     riba[3].bod = 3;
 
     riba[4].ime = "Tolstolobik";
-    riba[4].tezina = 25.3;  
+    riba[4].tezina = 25.3;
     riba[4].bod = 4;
 
     riba[5].ime = "Saran";
-    riba[5].tezina = 13.4;  
+    riba[5].tezina = 13.4;
     riba[5].bod = 4;
 
     riba[6].ime = "Bolen";
-    riba[6].tezina = 6.6;  
+    riba[6].tezina = 6.6;
     riba[6].bod = 4;
 
     riba[7].ime = "Som";
-    riba[7].tezina = 39.5; 
+    riba[7].tezina = 39.5;
     riba[7].bod = 4;
 
     riba[8].ime = "Smud";
-    riba[8].tezina = 4.2;  
+    riba[8].tezina = 4.2;
     riba[8].bod = 6;
 
     riba[9].ime = "Keciga";
-    riba[9].tezina = 7.1;  
+    riba[9].tezina = 7.1;
     riba[9].bod = 4;
 
     riba[10].ime = "Cvergl";
-    riba[10].tezina = 1.0;  
+    riba[10].tezina = 1.0;
     riba[10].bod = -2;
 
     riba[11].ime = "Amur";
-    riba[11].tezina = 11.8;  
+    riba[11].tezina = 11.8;
     riba[11].bod = 5;
 
     riba[12].ime = "Mrena";
-    riba[12].tezina = 2.9;  
+    riba[12].tezina = 2.9;
     riba[12].bod = 3;
 
     riba[13].ime = "Stuka";
-    riba[13].tezina = 15.5; 
+    riba[13].tezina = 15.5;
     riba[13].bod = 7;
 
     riba[14].ime = "Grgec";
-    riba[14].tezina = 1.3;  
+    riba[14].tezina = 1.3;
     riba[14].bod = 3;
 
     riba[15].ime = "Klen";
-    riba[15].tezina = 1.1;  
+    riba[15].tezina = 1.1;
     riba[15].bod = 2;
 
     riba[16].ime = "Linjak";
-    riba[16].tezina = 4.7;  
+    riba[16].tezina = 4.7;
     riba[16].bod = 7;
 
     if (brojRibe == 10) {
         printf("Ajoj, ulovili ste Cvergla. Ta riba vam oduzima 2 boda :(\n \n");
         return -2;
     }
-    // Changed %d to %f to print float
     printf("Ulovili ste ribu %s tezine %.1f ! Vrijednost ribe u bodovima: %d\n \n", riba[brojRibe].ime, riba[brojRibe].tezina, riba[brojRibe].bod);
     return riba[brojRibe].bod;
 }
 
-void initGame(int numPlayers, igrac* players) { // Lines 118-126
+void initGame(int numPlayers, igrac* players) { 
     for (int i = 0; i < numPlayers; i++) {
         printf("Unesite ime %d. igraca: ", i + 1);
         scanf("%s", players[i].ime);
@@ -219,7 +217,7 @@ void playGame(igrac* players, int numPlayers) {
     }
 }
 
-void saveGame(igrac* players, int numPlayers) { // Lines 154-167
+void saveGame(igrac* players, int numPlayers) { 
     FILE* file = fopen("savefile.txt", "w");
     if (file == NULL) {
         perror("Error opening file");
@@ -234,7 +232,7 @@ void saveGame(igrac* players, int numPlayers) { // Lines 154-167
     fclose(file);
 }
 
-int loadGame(igrac* players, int* numPlayers) { // Lines 169-188
+int loadGame(igrac* players, int* numPlayers) { 
     FILE* file = fopen("savefile.txt", "r");
     if (file == NULL) {
         perror("Error opening file");
@@ -254,7 +252,7 @@ int loadGame(igrac* players, int* numPlayers) { // Lines 169-188
     return 0;
 }
 
-void ispisiHighscore() { // Lines 190-211
+void ispisiHighscore() { 
     FILE* file = fopen("highscore.txt", "r");
     if (file == NULL) {
         perror("Error opening file");
@@ -289,7 +287,7 @@ void ispisiHighscore() { // Lines 190-211
 }
 
 
-void upisiHighscore(const char* ime, int bodovi) { // Lines 219-227
+void upisiHighscore(const char* ime, int bodovi) { 
     FILE* file = fopen("highscore.txt", "a");
     if (file == NULL) {
         perror("Error opening file");
@@ -302,8 +300,8 @@ void upisiHighscore(const char* ime, int bodovi) { // Lines 219-227
     fclose(file);
 }
 
-int upisiBrojIgraca() { // Lines 229-244
-    char input[10];  // Buffer
+int upisiBrojIgraca() { 
+    char input[10];  
     int brojIgraca = 0;
     while (1) {
         printf("Unesite broj igraca (2-4): ");
@@ -428,5 +426,25 @@ void izbrisiHighscore() {
     }
     else {
         perror("Greška pri brisanju high score datoteke");
+    }
+}
+
+// Funkcija za izlaz iz programa
+void izlazIzPrograma(igrac* players, int brojIgraca) {
+    char odgovor[3];
+    printf("Da li ste sigurni da zelite zavrsiti program? (da / ne)");
+    scanf("%s", odgovor);
+    if (!strcmp(odgovor, "da")) {
+        int nextSaveFile = getAvailableSaveFile();
+        saveGameBinary(players, brojIgraca, nextSaveFile);
+        free(players);
+        players = NULL; // Postavi pokazivač na NULL nakon oslobadanja memorije
+        exit(0);
+    }
+    else if (!strcmp(odgovor, "ne")) {
+        return;
+    }
+    else {
+        printf("Nepoznata opcija, upisi opet\n");
     }
 }
