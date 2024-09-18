@@ -12,7 +12,7 @@ typedef struct {
 
 typedef struct {
     const char* ime;
-    float tezina; 
+    float tezina;
     int bod;
 } ribe;
 
@@ -38,5 +38,6 @@ void izbrisiHighscore();
 void upisiHighscore(const char* ime, int bodovi);
 int upisiBrojIgraca();
 int validInput(char* input);
+void izlazIzPrograma(igrac* players, int brojIgraca); // Nova funkcija za izlaz
 
 #endif
