@@ -5,39 +5,8 @@
 #include <time.h>
 #include "strukture.h"
 
-// Deklaracije funkcija - Ignoriraj :I
-void saveGameBinary(igrac* players, int numPlayers, int fileIndex);
-int askWhichSaveFile();
-int loadGameBinary(igrac* players, int* numPlayers, int fileIndex);
-int getAvailableSaveFile();
-
+// Globalna varijabla za igrače
 igrac* players;
-
-// Funkcija za izlaz iz igre
-void izlazIzIgre(igrac* players, int brojIgraca) {
-    char odgovor[3];
-    printf("Da li ste sigurni da zelite zavrsiti program? (da / ne)");
-    scanf("%s", odgovor);
-    if (!strcmp(odgovor, "da")) {
-        int nextSaveFile = getAvailableSaveFile();
-        saveGameBinary(players, brojIgraca, nextSaveFile);
-        free(players);
-        players = NULL; // Postavi pokazivač na NULL nakon oslobadanja memorije
-        exit(0);
-    } else if (!strcmp(odgovor, "ne")) {
-        return;
-    } else {
-        printf("Nepoznata opcija, upisi opet\n");
-    }
-}
-
-// Funkcija za nastavak igre
-void nastaviIgru(igrac* players, int* brojIgraca) {
-    int fileIndex = askWhichSaveFile();
-    if (loadGameBinary(players, brojIgraca, fileIndex) == 0) {
-        playGame(players, *brojIgraca);
-    }
-}
 
 int main() {
     int brojIgraca = 0;
@@ -47,9 +16,10 @@ int main() {
         return 1;
     }
 
-    char input[10];  // Buffer to store user input
+    char odgovor[3];
+    char input[10];
     IzbornikOpcija choice;
-    int saveFileIndex = 1;  // Default save file index
+    int saveFileIndex = 1;
 
     while (1) {
         printf("**************************************************\n");
@@ -60,7 +30,7 @@ int main() {
         printf("4. Procitaj highscore,\n");
         printf("5. Izbrisi highscore,\n");
         printf("6. Izlaz.\n");
-        scanf("%s", input);  // Read user input as string
+        scanf("%s", input);
 
         if (sscanf(input, "%d", (int*)&choice) != 1) {
             printf("Pogresan izbor, upisi broj izmedu 1 i 6.\n");
@@ -70,7 +40,6 @@ int main() {
         switch (choice) {
         case IZBORNIK_IGRAJ:
             brojIgraca = upisiBrojIgraca();
-
             printf("Odaberite save file (1, 2, ili 3) za ovu igru: ");
             scanf("%d", &saveFileIndex);
 
@@ -87,7 +56,7 @@ int main() {
             break;
 
         case IZBORNIK_NASTAVI:
-            nastaviIgru(players, &brojIgraca); // Poziv nove funkcije
+            continueGame(players, &brojIgraca);
             break;
 
         case IZBORNIK_PRAVILA:
@@ -103,7 +72,7 @@ int main() {
             break;
 
         case IZBORNIK_IZLAZ:
-            izlazIzIgre(players, brojIgraca); // Poziv nove funkcije za izlaz
+            saveAndExit(players, brojIgraca);
             break;
 
         default:
