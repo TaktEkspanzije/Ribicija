@@ -35,10 +35,12 @@ int bacanjeKocke() {
     return bacanjeKockeRekurzivno(1);
 }
 
+// Ispis pravila igre
 void napisiPravilaIgre() {
     printf("\n - \n Dok igras portebno je pokraj sebe imati fizicku kopiju ili sliku polja igre ribicija \n kako bi znali gdje se nalazite u igri posto je ovaj program samo text :p. \n Ribicija je covjece ne ljuti se igra sa posebnim poljima gdje pecas i ovisno koju ribu \n ulovis dobivas odredenu kolicinu bodova. Ti bodovi odlucuju tko je pobjednik. \n Pobjednik nije onaj igrac koji prvi dođe do cilja vec onaj sa najvise bodova na kraju igre. \n Prvi igrac koji dode do cilja dobiva 10 nagradnih bodova. \n - \n - ");
 }
 
+// Funkcija za lov ribe
 int loviRibu() {
     static ribe riba[17];
     int brojRibe = rand() % 16 + 1;
@@ -115,7 +117,8 @@ int loviRibu() {
     return riba[brojRibe].bod;
 }
 
-void initGame(int numPlayers, igrac* players) { 
+// Inicijalizacija igre
+void initGame(int numPlayers, igrac* players) {
     for (int i = 0; i < numPlayers; i++) {
         printf("Unesite ime %d. igraca: ", i + 1);
         scanf("%s", players[i].ime);
@@ -125,7 +128,8 @@ void initGame(int numPlayers, igrac* players) {
     }
 }
 
-void playGame(igrac* players, int numPlayers) { 
+// Glavna funkcija za igru
+void playGame(igrac* players, int numPlayers) {
     int currentPlayer = 0;
     int posebnaPolja[17] = { 37, 41, 45, 50, 55, 61, 66, 69, 73, 77, 80, 83, 88, 93, 100, 104, 108 };
     int krajIgre = 0;
@@ -136,8 +140,8 @@ void playGame(igrac* players, int numPlayers) {
             currentPlayer = i;
             printf("Igrac %s je na polju %d. Zelite li baciti kocku ili izaci van iz igre? (b/i): ", players[currentPlayer].ime, players[currentPlayer].polje);
             char choice[10];
-            scanf("%9s", choice);  // Read up to 9 characters to prevent buffer overflow
-            char action = choice[0];  // Only use the first character
+            scanf("%9s", choice);  
+            char action = choice[0];  
             if (action == 'b') {
                 int roll = bacanjeKocke();
                 players[currentPlayer].polje += roll;
@@ -157,16 +161,13 @@ void playGame(igrac* players, int numPlayers) {
                     break;
                 }
 
-                // Posebna polja 5, 11, 21
                 if (players[currentPlayer].polje == 5) {
                     printf("Igrac %s je stao na posebno polje te se pomice 5 mjesta unaprijed.\n", players[currentPlayer].ime);
                     players[currentPlayer].polje += 5;
-                }
-                else if (players[currentPlayer].polje == 11) {
+                } else if (players[currentPlayer].polje == 11) {
                     printf("Igrac %s je stao na posebno polje te se vraca 3 mjesta unazad.\n", players[currentPlayer].ime);
                     players[currentPlayer].polje -= 3;
-                }
-                else if (players[currentPlayer].polje == 21) {
+                } else if (players[currentPlayer].polje == 21) {
                     printf("Igrac %s je stao na posebno polje te se pomice 7 mjesta unaprijed.\n", players[currentPlayer].ime);
                     players[currentPlayer].polje += 7;
                 }
@@ -176,18 +177,15 @@ void playGame(igrac* players, int numPlayers) {
                         if (players[currentPlayer].polje == 66) {
                             printf("Pecali ste na zabranjenom mjestu stoga vas vraćamo na start 2!\n");
                             players[currentPlayer].polje = 33;
-                        }
-                        else if (players[currentPlayer].polje == 83) {
+                        } else if (players[currentPlayer].polje == 83) {
                             printf("Igrac %s je upao/la u camac koji je otplutovao do druge strane jezera te igraca doveo nazad na polje 56!\n", players[currentPlayer].ime);
                             players[currentPlayer].polje = 56;
-                        }
-                        else {
+                        } else {
                             players[currentPlayer].bodovi += loviRibu();
                         }
                     }
                 }
-            }
-            else if (action == 'i') {
+            } else if (action == 'i') {
                 saveGame(players, numPlayers);
                 printf("Igra je spremljena. Igrac %s je izasao van iz igre.\n", players[currentPlayer].ime);
                 krajIgre = 0;
@@ -217,7 +215,8 @@ void playGame(igrac* players, int numPlayers) {
     }
 }
 
-void saveGame(igrac* players, int numPlayers) { 
+// Spremi igru u tekstualnu datoteku
+void saveGame(igrac* players, int numPlayers) {
     FILE* file = fopen("savefile.txt", "w");
     if (file == NULL) {
         perror("Error opening file");
@@ -232,27 +231,58 @@ void saveGame(igrac* players, int numPlayers) {
     fclose(file);
 }
 
-int loadGame(igrac* players, int* numPlayers) { 
-    FILE* file = fopen("savefile.txt", "r");
+// Učitavanje igre iz binarne datoteke
+int loadGameBinary(igrac* players, int* numPlayers, int fileIndex) {
+    char filename[20];
+    sprintf(filename, "savefile%d.bin", fileIndex);
+
+    FILE* file = fopen(filename, "rb");
     if (file == NULL) {
         perror("Error opening file");
         return -1;
     }
-    *numPlayers = 0;
-    while (fscanf(file, "%s %d %d %d", players[*numPlayers].ime, &players[*numPlayers].polje, &players[*numPlayers].bodovi, &players[*numPlayers].gotov) == 4) {
-        (*numPlayers)++;
+
+    // Pročitaj broj igrača
+    fread(numPlayers, sizeof(int), 1, file);
+
+    // Pročitaj podatke o igračima
+    fread(players, sizeof(igrac), *numPlayers, file);
+
+    // Use ftell to display the current position of the file pointer
+    long currentPosition = ftell(file);
+    if (currentPosition != -1) {
+        printf("Trenutna pozicija pokazivača u datoteci: %ld byte-ova.\n", currentPosition);
+    } else {
+        perror("Greska kod poziva ftell()");
     }
-    if (feof(file)) {
-        printf("End of file reached.\n");
-    }
-    if (ferror(file)) {
-        perror("Error reading from file");
-    }
+
     fclose(file);
     return 0;
 }
 
-void ispisiHighscore() { 
+// Funkcija za unos broja igrača
+int upisiBrojIgraca() {
+    char input[10];  
+    int brojIgraca = 0;
+    while (1) {
+        printf("Unesite broj igraca (2-4): ");
+        scanf("%s", input);
+        if (validInput(input)) {
+            sscanf(input, "%d", &brojIgraca);
+            if (brojIgraca >= 2 && brojIgraca <= 4) {
+                break;
+            } else {
+                printf("Broj igraca mora biti izmedu 2 i 4!\n");
+            }
+        } else {
+            printf("Pogresan unos, upisite broj izmedu 2 i 4!\n");
+        }
+    }
+    return brojIgraca;
+}
+
+// Ispis highscore-a
+void ispisiHighscore() {
     FILE* file = fopen("highscore.txt", "r");
     if (file == NULL) {
         perror("Error opening file");
@@ -286,8 +316,8 @@ void ispisiHighscore() {
     fclose(file);
 }
 
-
-void upisiHighscore(const char* ime, int bodovi) { 
+// Upis highscore-a
+void upisiHighscore(const char* ime, int bodovi) {
     FILE* file = fopen("highscore.txt", "a");
     if (file == NULL) {
         perror("Error opening file");
@@ -298,43 +328,6 @@ void upisiHighscore(const char* ime, int bodovi) {
         perror("Error writing to file");
     }
     fclose(file);
-}
-
-int upisiBrojIgraca() { 
-    char input[10];  
-    int brojIgraca = 0;
-    while (1) {
-        printf("Unesite broj igraca (2-4): ");
-        scanf("%s", input);
-        if (validInput(input)) {
-            sscanf(input, "%d", &brojIgraca);
-            if (brojIgraca >= 2 && brojIgraca <= 4) {
-                break;
-            }
-            else {
-                printf("Broj igraca mora biti izmedu 2 i 4!\n");
-            }
-        }
-        else {
-            printf("Pogresan unos, upisite broj izmedu 2 i 4!\n");
-        }
-    }
-    return brojIgraca;
-}
-
-int compareByPoints(const void* a, const void* b) {
-    return ((igrac*)b)->bodovi - ((igrac*)a)->bodovi;
-}
-
-// Binarno pretraživanje igrača po imenu
-int compareByName(const void* a, const void* b) {
-    return strcmp(((igrac*)a)->ime, ((igrac*)b)->ime);
-}
-
-igrac* findPlayer(igrac* players, int numPlayers, const char* ime) {
-    igrac key;
-    strcpy(key.ime, ime);
-    return (igrac*)bsearch(&key, players, numPlayers, sizeof(igrac), compareByName);
 }
 
 // Spremi igru u binarnu datoteku
@@ -348,16 +341,13 @@ void saveGameBinary(igrac* players, int numPlayers, int fileIndex) {
         return;
     }
 
-    // Zapiši broj igrača
     fwrite(&numPlayers, sizeof(int), 1, file);
-
-    // Zapiši podatke o svakom igraču
     fwrite(players, sizeof(igrac), numPlayers, file);
 
     fclose(file);
 }
 
-// Provjeri koji savefile već postoji i nađi sljedeći slobodni
+// Provjera slobodnog savefile-a
 int getAvailableSaveFile() {
     FILE* file;
     char filename[20];
@@ -366,45 +356,15 @@ int getAvailableSaveFile() {
         sprintf(filename, "savefile%d.bin", i);
         file = fopen(filename, "rb");
         if (file == NULL) {
-            return i; // Pronađen slobodan file
+            return i;
         }
         fclose(file);
     }
 
-    return 3; // Ako svi postoje, koristi savefile3
+    return 3;
 }
 
-// Učitaj igru iz određenog binarnog savefile-a
-int loadGameBinary(igrac* players, int* numPlayers, int fileIndex) {
-    char filename[20];
-    sprintf(filename, "savefile%d.bin", fileIndex);
-
-    FILE* file = fopen(filename, "rb");
-    if (file == NULL) {
-        perror("Error opening file");
-        return -1;
-    }
-
-    // Pročitaj broj igrača
-    fread(numPlayers, sizeof(int), 1, file);
-
-    // Pročitaj podatke o igračima
-    fread(players, sizeof(igrac), *numPlayers, file);
-
-    // Use ftell to display the current position of the file pointer
-    long currentPosition = ftell(file);
-    if (currentPosition != -1) {
-        printf("Trenutna pozicija pokazivača u datoteci: %ld byte-ova.\n", currentPosition);
-    }
-    else {
-        perror("Greska kod poziva ftell()");
-    }
-
-    fclose(file);
-    return 0;
-}
-
-// Funkcija za nastavak igre s odabranog savefile-a
+// Odabir savefile-a
 int askWhichSaveFile() {
     int fileIndex;
     printf("Nastavi od kojeg savefile-a (1, 2, ili 3)? ");
@@ -418,19 +378,16 @@ int askWhichSaveFile() {
     return fileIndex;
 }
 
-// Funkcija koja briše high score datoteku koristeći remove()
+// Brisanje highscore-a
 void izbrisiHighscore() {
-    // Pokušaj brisanja highscore datoteke
     if (remove("highscore.txt") == 0) {
         printf("High score datoteka je uspješno izbrisana.\n");
-    }
-    else {
+    } else {
         perror("Greška pri brisanju high score datoteke");
     }
 }
 
-// Funkcija za izlaz iz programa
-void izlazIzPrograma(igrac* players, int brojIgraca) {
+void saveAndExit(igrac* players, int brojIgraca) {
     char odgovor[3];
     printf("Da li ste sigurni da zelite zavrsiti program? (da / ne)");
     scanf("%s", odgovor);
@@ -440,11 +397,18 @@ void izlazIzPrograma(igrac* players, int brojIgraca) {
         free(players);
         players = NULL; // Postavi pokazivač na NULL nakon oslobadanja memorije
         exit(0);
-    }
-    else if (!strcmp(odgovor, "ne")) {
+    } else if (!strcmp(odgovor, "ne")) {
         return;
-    }
-    else {
+    } else {
         printf("Nepoznata opcija, upisi opet\n");
     }
 }
+
+// Continue Game Function
+void continueGame(igrac* players, int* brojIgraca) {
+    int fileIndex = askWhichSaveFile();
+    if (loadGameBinary(players, brojIgraca, fileIndex) == 0) {
+        playGame(players, *brojIgraca);
+    }
+}
+
