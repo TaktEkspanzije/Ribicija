@@ -38,6 +38,12 @@ void izbrisiHighscore();
 void upisiHighscore(const char* ime, int bodovi);
 int upisiBrojIgraca();
 int validInput(char* input);
-void izlazIzPrograma(igrac* players, int brojIgraca); // Nova funkcija za izlaz
+void izlazIzPrograma(igrac* players, int brojIgraca); 
+
+void saveAndExit(igrac* players, int brojIgraca);
+void continueGame(igrac* players, int* brojIgraca);
+void saveGameBinary(igrac* players, int numPlayers, int fileIndex);
+int askWhichSaveFile();
+int loadGameBinary(igrac* players, int* numPlayers, int fileIndex);
 
 #endif
