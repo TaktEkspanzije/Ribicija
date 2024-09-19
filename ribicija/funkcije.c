@@ -10,17 +10,17 @@
 // External declarations
 extern igrac* players;
 
-// Funkcija za validaciju unosa
+// Function to validate input
 int validInput(char* input) {
     for (int i = 0; input[i] != '\0'; i++) {
         if (!isdigit(input[i])) {
-            return 0; // false, not a number
+            return 0;  // Not a number
         }
     }
-    return 1; // true, it is a number
+    return 1;  // Valid number
 }
 
-// Rekurzivna funkcija za bacanje kocke s nasumičnim seed-om
+// Recursive dice roll function
 int bacanjeKockeRekurzivno(int rollCount) {
     srand(time(NULL) + rollCount);
     if (rollCount == 1) {
@@ -30,84 +30,38 @@ int bacanjeKockeRekurzivno(int rollCount) {
     }
 }
 
-// Funkcija za bacanje kocke
+// Dice roll function
 int bacanjeKocke() {
     return bacanjeKockeRekurzivno(1);
 }
 
-// Ispis pravila igre
+// Write game rules
 void napisiPravilaIgre() {
     printf("\n - \n Dok igras portebno je pokraj sebe imati fizicku kopiju ili sliku polja igre ribicija \n kako bi znali gdje se nalazite u igri posto je ovaj program samo text :p. \n Ribicija je covjece ne ljuti se igra sa posebnim poljima gdje pecas i ovisno koju ribu \n ulovis dobivas odredenu kolicinu bodova. Ti bodovi odlucuju tko je pobjednik. \n Pobjednik nije onaj igrac koji prvi dođe do cilja vec onaj sa najvise bodova na kraju igre. \n Prvi igrac koji dode do cilja dobiva 10 nagradnih bodova. \n - \n - ");
 }
 
-// Funkcija za lov ribe
+// Function to fish and determine points
 int loviRibu() {
     static ribe riba[17];
     int brojRibe = rand() % 16 + 1;
 
-    riba[1].ime = "Pastrva";
-    riba[1].tezina = 2.5;
-    riba[1].bod = 4;
-
-    riba[2].ime = "Deverika";
-    riba[2].tezina = 3.7;
-    riba[2].bod = 3;
-
-    riba[3].ime = "Crvenperka";
-    riba[3].tezina = 1.2;
-    riba[3].bod = 3;
-
-    riba[4].ime = "Tolstolobik";
-    riba[4].tezina = 25.3;
-    riba[4].bod = 4;
-
-    riba[5].ime = "Saran";
-    riba[5].tezina = 13.4;
-    riba[5].bod = 4;
-
-    riba[6].ime = "Bolen";
-    riba[6].tezina = 6.6;
-    riba[6].bod = 4;
-
-    riba[7].ime = "Som";
-    riba[7].tezina = 39.5;
-    riba[7].bod = 4;
-
-    riba[8].ime = "Smud";
-    riba[8].tezina = 4.2;
-    riba[8].bod = 6;
-
-    riba[9].ime = "Keciga";
-    riba[9].tezina = 7.1;
-    riba[9].bod = 4;
-
-    riba[10].ime = "Cvergl";
-    riba[10].tezina = 1.0;
-    riba[10].bod = -2;
-
-    riba[11].ime = "Amur";
-    riba[11].tezina = 11.8;
-    riba[11].bod = 5;
-
-    riba[12].ime = "Mrena";
-    riba[12].tezina = 2.9;
-    riba[12].bod = 3;
-
-    riba[13].ime = "Stuka";
-    riba[13].tezina = 15.5;
-    riba[13].bod = 7;
-
-    riba[14].ime = "Grgec";
-    riba[14].tezina = 1.3;
-    riba[14].bod = 3;
-
-    riba[15].ime = "Klen";
-    riba[15].tezina = 1.1;
-    riba[15].bod = 2;
-
-    riba[16].ime = "Linjak";
-    riba[16].tezina = 4.7;
-    riba[16].bod = 7;
+    // Initialize fish data
+    riba[1].ime = "Pastrva"; riba[1].tezina = 2.5; riba[1].bod = 4;
+    riba[2].ime = "Deverika"; riba[2].tezina = 3.7; riba[2].bod = 3;
+    riba[3].ime = "Crvenperka"; riba[3].tezina = 1.2; riba[3].bod = 3;
+    riba[4].ime = "Tolstolobik"; riba[4].tezina = 25.3; riba[4].bod = 4;
+    riba[5].ime = "Saran"; riba[5].tezina = 13.4; riba[5].bod = 4;
+    riba[6].ime = "Bolen"; riba[6].tezina = 6.6; riba[6].bod = 4;
+    riba[7].ime = "Som"; riba[7].tezina = 39.5; riba[7].bod = 4;
+    riba[8].ime = "Smud"; riba[8].tezina = 4.2; riba[8].bod = 6;
+    riba[9].ime = "Keciga"; riba[9].tezina = 7.1; riba[9].bod = 4;
+    riba[10].ime = "Cvergl"; riba[10].tezina = 1.0; riba[10].bod = -2;
+    riba[11].ime = "Amur"; riba[11].tezina = 11.8; riba[11].bod = 5;
+    riba[12].ime = "Mrena"; riba[12].tezina = 2.9; riba[12].bod = 3;
+    riba[13].ime = "Stuka"; riba[13].tezina = 15.5; riba[13].bod = 7;
+    riba[14].ime = "Grgec"; riba[14].tezina = 1.3; riba[14].bod = 3;
+    riba[15].ime = "Klen"; riba[15].tezina = 1.1; riba[15].bod = 2;
+    riba[16].ime = "Linjak"; riba[16].tezina = 4.7; riba[16].bod = 7;
 
     if (brojRibe == 10) {
         printf("Ajoj, ulovili ste Cvergla. Ta riba vam oduzima 2 boda :(\n \n");
@@ -117,7 +71,7 @@ int loviRibu() {
     return riba[brojRibe].bod;
 }
 
-// Inicijalizacija igre
+// Initialize game
 void initGame(int numPlayers, igrac* players) {
     for (int i = 0; i < numPlayers; i++) {
         printf("Unesite ime %d. igraca: ", i + 1);
@@ -128,7 +82,7 @@ void initGame(int numPlayers, igrac* players) {
     }
 }
 
-// Glavna funkcija za igru
+// Play game function
 void playGame(igrac* players, int numPlayers) {
     int currentPlayer = 0;
     int posebnaPolja[17] = { 37, 41, 45, 50, 55, 61, 66, 69, 73, 77, 80, 83, 88, 93, 100, 104, 108 };
@@ -140,8 +94,8 @@ void playGame(igrac* players, int numPlayers) {
             currentPlayer = i;
             printf("Igrac %s je na polju %d. Zelite li baciti kocku ili izaci van iz igre? (b/i): ", players[currentPlayer].ime, players[currentPlayer].polje);
             char choice[10];
-            scanf("%9s", choice);  
-            char action = choice[0];  
+            scanf("%9s", choice);
+            char action = choice[0];
             if (action == 'b') {
                 int roll = bacanjeKocke();
                 players[currentPlayer].polje += roll;
@@ -215,7 +169,7 @@ void playGame(igrac* players, int numPlayers) {
     }
 }
 
-// Spremi igru u tekstualnu datoteku
+// Save game to file
 void saveGame(igrac* players, int numPlayers) {
     FILE* file = fopen("savefile.txt", "w");
     if (file == NULL) {
@@ -231,7 +185,7 @@ void saveGame(igrac* players, int numPlayers) {
     fclose(file);
 }
 
-// Učitavanje igre iz binarne datoteke
+// Load game from binary file
 int loadGameBinary(igrac* players, int* numPlayers, int fileIndex) {
     char filename[20];
     sprintf(filename, "savefile%d.bin", fileIndex);
@@ -242,13 +196,9 @@ int loadGameBinary(igrac* players, int* numPlayers, int fileIndex) {
         return -1;
     }
 
-    // Pročitaj broj igrača
     fread(numPlayers, sizeof(int), 1, file);
-
-    // Pročitaj podatke o igračima
     fread(players, sizeof(igrac), *numPlayers, file);
 
-    // Use ftell to display the current position of the file pointer
     long currentPosition = ftell(file);
     if (currentPosition != -1) {
         printf("Trenutna pozicija pokazivača u datoteci: %ld byte-ova.\n", currentPosition);
@@ -260,9 +210,9 @@ int loadGameBinary(igrac* players, int* numPlayers, int fileIndex) {
     return 0;
 }
 
-// Funkcija za unos broja igrača
+// Input number of players
 int upisiBrojIgraca() {
-    char input[10];  
+    char input[10];
     int brojIgraca = 0;
     while (1) {
         printf("Unesite broj igraca (2-4): ");
@@ -281,7 +231,7 @@ int upisiBrojIgraca() {
     return brojIgraca;
 }
 
-// Ispis highscore-a
+// Print high score
 void ispisiHighscore() {
     FILE* file = fopen("highscore.txt", "r");
     if (file == NULL) {
@@ -316,7 +266,7 @@ void ispisiHighscore() {
     fclose(file);
 }
 
-// Upis highscore-a
+// Save high score
 void upisiHighscore(const char* ime, int bodovi) {
     FILE* file = fopen("highscore.txt", "a");
     if (file == NULL) {
@@ -330,7 +280,7 @@ void upisiHighscore(const char* ime, int bodovi) {
     fclose(file);
 }
 
-// Spremi igru u binarnu datoteku
+// Save game in binary format
 void saveGameBinary(igrac* players, int numPlayers, int fileIndex) {
     char filename[20];
     sprintf(filename, "savefile%d.bin", fileIndex);
@@ -347,7 +297,7 @@ void saveGameBinary(igrac* players, int numPlayers, int fileIndex) {
     fclose(file);
 }
 
-// Provjera slobodnog savefile-a
+// Get available save file
 int getAvailableSaveFile() {
     FILE* file;
     char filename[20];
@@ -364,7 +314,7 @@ int getAvailableSaveFile() {
     return 3;
 }
 
-// Odabir savefile-a
+// Choose save file
 int askWhichSaveFile() {
     int fileIndex;
     printf("Nastavi od kojeg savefile-a (1, 2, ili 3)? ");
@@ -378,7 +328,7 @@ int askWhichSaveFile() {
     return fileIndex;
 }
 
-// Brisanje highscore-a
+// Delete high score
 void izbrisiHighscore() {
     if (remove("highscore.txt") == 0) {
         printf("High score datoteka je uspješno izbrisana.\n");
@@ -387,15 +337,16 @@ void izbrisiHighscore() {
     }
 }
 
+// Save and exit game
 void saveAndExit(igrac* players, int brojIgraca) {
     char odgovor[3];
-    printf("Da li ste sigurni da zelite zavrsiti program? (da / ne)");
+    printf("Da li ste sigurni da zelite zavrsiti program? (da / ne) ");
     scanf("%s", odgovor);
     if (!strcmp(odgovor, "da")) {
         int nextSaveFile = getAvailableSaveFile();
         saveGameBinary(players, brojIgraca, nextSaveFile);
         free(players);
-        players = NULL; // Postavi pokazivač na NULL nakon oslobadanja memorije
+        players = NULL;
         exit(0);
     } else if (!strcmp(odgovor, "ne")) {
         return;
@@ -404,11 +355,10 @@ void saveAndExit(igrac* players, int brojIgraca) {
     }
 }
 
-// Continue Game Function
+// Continue saved game
 void continueGame(igrac* players, int* brojIgraca) {
     int fileIndex = askWhichSaveFile();
     if (loadGameBinary(players, brojIgraca, fileIndex) == 0) {
         playGame(players, *brojIgraca);
     }
 }
-
