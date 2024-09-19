@@ -3,7 +3,7 @@
 #ifndef STRUKTURE_H
 #define STRUKTURE_H
 
-// Player structure
+// Structure for players
 typedef struct {
     char ime[20];
     int polje;
@@ -11,14 +11,14 @@ typedef struct {
     int gotov;
 } igrac;
 
-// Fish structure
+// Structure for fish
 typedef struct {
     const char* ime;
     float tezina;
     int bod;
 } ribe;
 
-// Menu options enum
+// Enumeration for menu options
 typedef enum {
     IZBORNIK_IGRAJ = 1,
     IZBORNIK_NASTAVI,
@@ -47,3 +47,5 @@ void continueGame(igrac* players, int* brojIgraca);
 void saveGameBinary(igrac* players, int numPlayers, int fileIndex);
 int askWhichSaveFile();
 int loadGameBinary(igrac* players, int* numPlayers, int fileIndex);
+
+#endif  // STRUKTURE_H
