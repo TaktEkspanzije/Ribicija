@@ -328,7 +328,7 @@ int askWhichSaveFile() {
     return fileIndex;
 }
 
-// Delete high score
+
 void izbrisiHighscore() {
     if (remove("highscore.txt") == 0) {
         printf("High score datoteka je uspješno izbrisana.\n");
@@ -360,5 +360,33 @@ void continueGame(igrac* players, int* brojIgraca) {
     int fileIndex = askWhichSaveFile();
     if (loadGameBinary(players, brojIgraca, fileIndex) == 0) {
         playGame(players, *brojIgraca);
+    }
+}
+
+void izbrisiSaveFiles() {
+    int status;
+
+    status = remove("savefile1.bin");
+    if (status == 0) {
+        printf("savefile1.bin uspjesno izbrisan.\n");
+    }
+    else {
+        printf("savefile1.bin nije pronaden ili ne moze biti izbrisan.\n");
+    }
+
+    status = remove("savefile2.bin");
+    if (status == 0) {
+        printf("savefile2.bin uspjesno izbrisan.\n");
+    }
+    else {
+        printf("savefile2.bin nije pronaden ili ne moze biti izbrisan.\n");
+    }
+
+    status = remove("savefile3.bin");
+    if (status == 0) {
+        printf("savefile3.bin uspjesno izbrisan.\n");
+    }
+    else {
+        printf("savefile3.bin nije pronaden ili ne moze biti izbrisan.\n");
     }
 }
