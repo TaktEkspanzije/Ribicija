@@ -10,7 +10,7 @@ igrac* players;
 
 void menu() {
     int brojIgraca = 0;
-    players = (igrac*)malloc(4 * sizeof(igrac));  // Dynamic memory allocation for players
+    players = (igrac*)malloc(4 * sizeof(igrac));
     if (players == NULL) {
         perror("Failed to allocate memory");
         return;
@@ -28,11 +28,12 @@ void menu() {
         printf("3. Pravila igre,\n");
         printf("4. Procitaj highscore,\n");
         printf("5. Izbrisi highscore,\n");
-        printf("6. Izlaz.\n");
+        printf("6. Izlaz,\n");
+        printf("7. Izbrisi savefilove,\n");  // New option for deleting save files
         scanf("%s", input);
 
         if (sscanf(input, "%d", (int*)&choice) != 1) {
-            printf("Pogresan izbor, upisi broj izmedu 1 i 6.\n");
+            printf("Pogresan izbor, upisi broj izmedu 1 i 7.\n");
             continue;
         }
 
@@ -75,12 +76,16 @@ void menu() {
             return;  // Exit from the menu loop
             break;
 
+        case IZBORNIK_BRISANJE:  // New case for deleting save files
+            izbrisiSaveFiles();
+            break;
+
         default:
-            printf("Pogresan izbor, upisi broj izmedu 1 i 6.\n");
+            printf("Pogresan izbor, upisi broj izmedu 1 i 7.\n");
             break;
         }
     }
 
-    free(players);  // Free allocated memory
-    players = NULL;  // Set pointer to NULL after freeing memory
+    free(players);
+    players = NULL;
 }
