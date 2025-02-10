@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "strukture.h"  // Include the header to access necessary structures
+#include "strukture.h"  
 
-extern void menu();  // Declaration of the menu function, assumed to be defined in menu.c
+extern void menu();  
 
 int main() {
-    menu();  // Call to the menu function
+    menu();  
     return 0;
 }
