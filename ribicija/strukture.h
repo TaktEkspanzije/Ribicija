@@ -1,5 +1,4 @@
 #pragma once
-
 #ifndef STRUKTURE_H
 #define STRUKTURE_H
 
@@ -22,28 +21,33 @@ typedef enum {
     IZBORNIK_PRAVILA,
     IZBORNIK_HIGHSCORE,
     IZBORNIK_IZBRISI_HIGHSCORE,
-    IZBORNIK_IZLAZ,
-    IZBORNIK_BRISANJE
+    IZBORNIK_IZLAZ
 } IzbornikOpcija;
 
-// Function prototypes
-void initGame(int numPlayers, igrac* players);
-void playGame(igrac* players, int numPlayers);
-void saveGame(igrac* players, int numPlayers);
-void napisiPravilaIgre();
-int loviRibu();
-int bacanjeKocke();
-int bacanjeKockeRekurzivno(int rollCount);
-void ispisiHighscore();
-void izbrisiHighscore();
-void upisiHighscore(const char* ime, int bodovi);
-int upisiBrojIgraca();
-int validInput(char* input);
-void saveAndExit(igrac* players, int brojIgraca);
-void continueGame(igrac* players, int* brojIgraca);
-void saveGameBinary(igrac* players, int numPlayers, int fileIndex);
-int askWhichSaveFile();
-int loadGameBinary(igrac* players, int* numPlayers, int fileIndex);
-void izbrisiSaveFiles();
 
-#endif  // STRUKTURE_H
+typedef struct {
+    int UniqueId;      
+    int NumPlayers;     
+    igrac Players[4];    
+} GameSave;
+
+
+void InitGame(int numPlayers, igrac* players);
+void PlayGame(igrac* players, int numPlayers);
+void NapisiPravilaIgre(void);
+int LoviRibu(void);
+int BacanjeKocke(void);
+int BacanjeKockeRekurzivno(int rollCount);
+int ValidInput(char* input);
+int UpisiBrojIgraca(void);
+void IspisiHighscore(void);
+void IzbrisiHighscore(void);
+void UpisiHighscore(const char* ime, int bodovi);
+void SaveAndExit(igrac* players, int brojIgraca);
+
+// Prototipi novih funkcija za unificirani save/učitavanje
+void SaveGameUnified(igrac* players, int numPlayers, int uniqueId);
+int LoadGameUnified(igrac* players, int* numPlayers, int uniqueId);
+int CompareGameSaves(const void* a, const void* b);
+
+#endif
