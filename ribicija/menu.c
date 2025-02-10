@@ -2,15 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include "strukture.h"
 
-// Global variable for players
 igrac* players;
+int CurrentUniqueId = 0; // Globalna varijabla za jedinstveni broj trenutne igre
 
 void menu() {
     int brojIgraca = 0;
-    players = (igrac*)malloc(4 * sizeof(igrac));
+    players = (igrac*)malloc(4 * sizeof(igrac)); // Alokacija za najviše 4 igrača
     if (players == NULL) {
         perror("Failed to allocate memory");
         return;
@@ -18,7 +17,6 @@ void menu() {
 
     char input[10];
     IzbornikOpcija choice;
-    int saveFileIndex = 1;
 
     while (1) {
         printf("**************************************************\n");
@@ -28,60 +26,50 @@ void menu() {
         printf("3. Pravila igre,\n");
         printf("4. Procitaj highscore,\n");
         printf("5. Izbrisi highscore,\n");
-        printf("6. Izlaz,\n");
-        printf("7. Izbrisi savefilove,\n");  // New option for deleting save files
+        printf("6. Izlaz.\n");
         scanf("%s", input);
 
         if (sscanf(input, "%d", (int*)&choice) != 1) {
-            printf("Pogresan izbor, upisi broj izmedu 1 i 7.\n");
+            printf("Pogrešan izbor, upiši broj između 1 i 6.\n");
             continue;
         }
 
         switch (choice) {
         case IZBORNIK_IGRAJ:
-            brojIgraca = upisiBrojIgraca();
-            printf("Odaberite save file (1, 2, ili 3) za ovu igru: ");
-            scanf("%d", &saveFileIndex);
-
-            if (saveFileIndex < 1 || saveFileIndex > 3) {
-                printf("Neispravan odabir. Spremit ćemo u savefile1.\n");
-                saveFileIndex = 1;
+            brojIgraca = UpisiBrojIgraca();
+            printf("Unesite jedinstveni broj za ovu igru: ");
+            scanf("%d", &CurrentUniqueId);
+            InitGame(brojIgraca, players);
+            PlayGame(players, brojIgraca);
+            // Nakon završetka igre, stanje se sprema unutar PlayGame() ili SaveAndExit()
+            SaveGameUnified(players, brojIgraca, CurrentUniqueId);
+            break;
+        case IZBORNIK_NASTAVI: {
+            int uniqueId;
+            printf("Unesite jedinstveni broj igre koju želite učitati: ");
+            scanf("%d", &uniqueId);
+            if (LoadGameUnified(players, &brojIgraca, uniqueId) != 0) {
+                // Ako ne postoji spremljena igra s tim brojem, vraćamo se u glavni izbornik
+                break;
             }
-
-            initGame(brojIgraca, players);
-            playGame(players, brojIgraca);
-
-            // Spremi igru u odredeni file
-            saveGameBinary(players, brojIgraca, saveFileIndex);
+            CurrentUniqueId = uniqueId;
+            PlayGame(players, brojIgraca);
             break;
-
-        case IZBORNIK_NASTAVI:
-            continueGame(players, &brojIgraca);
-            break;
-
+        }
         case IZBORNIK_PRAVILA:
-            napisiPravilaIgre();
+            NapisiPravilaIgre();
             break;
-
         case IZBORNIK_HIGHSCORE:
-            ispisiHighscore();
+            IspisiHighscore();
             break;
-
         case IZBORNIK_IZBRISI_HIGHSCORE:
-            izbrisiHighscore();
+            IzbrisiHighscore();
             break;
-
         case IZBORNIK_IZLAZ:
-            saveAndExit(players, brojIgraca);
-            return;  // Exit from the menu loop
+            SaveAndExit(players, brojIgraca);
             break;
-
-        case IZBORNIK_BRISANJE:  // New case for deleting save files
-            izbrisiSaveFiles();
-            break;
-
         default:
-            printf("Pogresan izbor, upisi broj izmedu 1 i 7.\n");
+            printf("Pogrešan izbor, upiši broj između 1 i 6.\n");
             break;
         }
     }
